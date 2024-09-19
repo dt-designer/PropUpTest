@@ -1,0 +1,24 @@
+.file-tree {
+  overflow-x: auto;
+  overflow-y: auto;
+  .copy-mode-indicator {
+    background-color: #f0f0f0;
+    color: #333;
+    padding: 5px 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    font-weight: bold;
+  }
+
+  li {
+    cursor: move;
+    padding: 5px;
+    margin: 2px 0;
+    border-radius: 4px;
+
+    //&.copy-mode {
+    //  background-color: #e6f7ff;
+    //  border: 1px dashed #1890ff;
+    //}
+  }
+}

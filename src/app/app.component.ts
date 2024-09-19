@@ -1,10 +1,14 @@
 import { Component } from '@angular/core';
+import { FileNode } from "./model/file-node.model";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'PropUp_TestWithOutStore';
+  selectedItem?: FileNode;
+
+  onSelectItem(item: FileNode) {
+    this.selectedItem = item;
+  }
 }

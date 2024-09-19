@@ -1,1 +1,91 @@
-/* You can add global styles to this file, and also import other style files */
+@import '~@fortawesome/fontawesome-free/css/all.css';
+
+* {
+  box-sizing: border-box;
+}
+
+.item-icon::before,
+.folder-state-icon::before {
+  font-family: 'Font Awesome 5 Free';
+  margin-right: 5px;
+}
+
+.file::before { content: '\f15b'; }
+.file-text::before { content: '\f15c'; }
+.file-word::before { content: '\f1c2'; }
+.file-pdf::before { content: '\f1c1'; }
+.file-image::before { content: '\f1c5'; }
+.folder::before { content: '\f07b'; }
+.folder-open::before { content: '\f07c'; }
+
+.folder-state-icon.plus::before { content: '\f067'; }
+.folder-state-icon.minus::before { content: '\f068'; }
+
+.app-container {
+  display: flex;
+  justify-content: space-between;
+  app-file-tree, app-file-editor {
+    display: block;
+    padding: 10px;
+  }
+  app-file-tree {
+    width: 35%;
+    border-right: 1px solid #ccc;
+  }
+  app-file-editor {
+    width: 65%;
+  }
+}
+
+.file-tree li {
+  list-style-type: none;
+  margin: 5px 0;
+  padding: 2px 5px;
+  cursor: pointer;
+}
+
+.file-tree li.selected {
+  background-color: #e6f7ff;
+}
+
+.file-tree .folder-state-icon {
+  display: inline-block;
+  text-align: center;
+  font-style: normal;
+  margin-right: 5px;
+  font-size: 12px;
+}
+
+.file-editor {
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.file-editor form > div {
+  margin-bottom: 10px;
+}
+
+.file-editor label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.file-editor input,
+.file-editor select,
+.file-editor textarea {
+  width: 100%;
+  padding: 5px;
+}
+
+.file-editor button {
+  padding: 5px 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.file-editor button:hover {
+  background-color: #45a049;
+}

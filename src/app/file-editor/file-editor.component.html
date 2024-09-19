@@ -1,0 +1,16 @@
+<div class="file-editor" *ngIf="selectedItem">
+  <h2>Edit attributes</h2>
+  <form (ngSubmit)="updateItem()">
+    <div>
+      <label for="name">Name:</label>
+      <input id="name" type="text" [(ngModel)]="editedName" name="name">
+    </div>
+    <div>
+      <label for="icon">Icon:</label>
+      <select id="icon" [(ngModel)]="editedIcon" name="icon">
+        <option *ngFor="let icon of icons" [value]="icon">{{ icon }}</option>
+      </select>
+    </div>
+    <button type="submit">Save</button>
+  </form>
+</div>

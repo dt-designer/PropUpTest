@@ -1,0 +1,28 @@
+<div class="file-tree">
+  <button (click)="createItems(true)">Generate directories</button>
+  <button (click)="createItems(false)">Generate files</button>
+
+  <ul>
+    <ng-container *ngTemplateOutlet="recursiveFileList; context:{ list: fileSystem }"></ng-container>
+  </ul>
+</div>
+
+<ng-template #recursiveFileList let-list="list">
+  <li *ngFor="let item of list"
+      [draggable]="true"
+      (dragstart)="!item.isRoot ? onDragStart($event, item) : null"
+      (dragover)="onDragOver($event)"
+      (drop)="onDrop($event, item)"
+      (click)="selectItem(item, $event)"
+      [class.selected]="selectedItem === item"
+      [class.copy-mode]="isCopyMode">
+    <span>
+      <i (click)="toggleFolder(item);" [class]="'folder-state-icon ' + getFolderStateIcon(item)"></i>
+      <i class="file-icon fa" [class]="getItemIcon(item)"></i>
+      {{ item.name }}
+    </span>
+    <ul *ngIf="item.isFolder && item.expanded && item.children.length">
+      <ng-container *ngTemplateOutlet="recursiveFileList; context:{ list: item.children }"></ng-container>
+    </ul>
+  </li>
+</ng-template>
