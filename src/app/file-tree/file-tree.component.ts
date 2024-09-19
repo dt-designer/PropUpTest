@@ -52,14 +52,14 @@ export class FileTreeComponent implements OnInit {
   }
 
   onDrop(event: DragEvent, targetItem: FileNode) {
-    event.preventDefault();
-    if (this.movedItem !== null) {
+    if (this.movedItem !== null && targetItem.isFolder) {
       const isCopy = event.shiftKey;
       const id = this.movedItem?.id!;
       this.fileSystemService.moveOrCopyItem(id, targetItem.id, isCopy);
       this.fileSystem = this.fileSystemService.getFileSystem();
-      this.movedItem = null;
     }
+    this.movedItem = null;
+    event.preventDefault();
   }
 
   toggleFolder(item: FileNode) {

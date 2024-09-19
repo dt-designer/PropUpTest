@@ -25,6 +25,10 @@ export class FileEditorComponent implements OnChanges {
   }
 
   updateItem() {
+    if (!this.editedName) {
+      alert('The "Name" field is required and cannot be empty.');
+      return;
+    }
     if (this.selectedItem) {
       this.fileSystemService.updateItem(this.selectedItem.id, {
         name: this.editedName,
