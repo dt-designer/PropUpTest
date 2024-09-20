@@ -9,15 +9,15 @@
 
 <ng-template #recursiveFileList let-list="list">
   <li *ngFor="let item of list"
-      [draggable]="true"
-      (dragstart)="!item.isRoot ? onDragStart($event, item) : null"
+      [draggable]="!item.isRoot"
+      (dragstart)="onDragStart($event, item)"
       (dragover)="onDragOver($event)"
       (drop)="onDrop($event, item)"
       (click)="selectItem(item, $event)"
       [class.selected]="selectedItem === item"
       [class.copy-mode]="isCopyMode">
     <span>
-      <i (click)="toggleFolder(item);" [class]="'folder-state-icon ' + getFolderStateIcon(item)"></i>
+      <i (click)="toggleFolder(item);" class="fa folder-state-icon" [ngClass]="getFolderStateIcon(item)"></i>
       <i class="file-icon fa" [class]="getItemIcon(item)"></i>
       {{ item.name }}
     </span>

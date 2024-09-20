@@ -11,7 +11,9 @@ export class FileTreeComponent implements OnInit {
   fileSystem: FileNode[] = [];
   isCopyMode: boolean = false;
   selectedItem?: FileNode | null;
-  movedItem?: FileNode | null;
+
+  private movedItem?: FileNode | null;
+  private isDragging: boolean = false;
 
   @Output() itemSelected = new EventEmitter<FileNode>();
 
@@ -24,21 +26,13 @@ export class FileTreeComponent implements OnInit {
   @HostListener('window:keydown.shift', ['$event'])
   @HostListener('window:keyup.shift', ['$event'])
   handleShiftKey(event: KeyboardEvent) {
+    event.preventDefault();
     this.isCopyMode = event.type === 'keydown';
   }
 
-  createItems(isFolder: boolean) {
-    const count = prompt('Number of elements', String(50));
-    const parentId = this.selectedItem && this.selectedItem.isFolder ? this.selectedItem.id : 'root';
-    this.fileSystemService.createItems(Number(count), isFolder, parentId);
-    this.fileSystem = this.fileSystemService.getFileSystem();
-    if (this.selectedItem && !this.selectedItem.expanded) {
-      this.toggleFolder(this.selectedItem);
-    }
-  }
-
   onDragStart(event: DragEvent, item: FileNode) {
-    if (event.dataTransfer && item) {
+    if (event.dataTransfer && item && !this.isDragging) {
+      this.isDragging = true;
       this.movedItem = !item.isRoot ? item : null;
       event.dataTransfer.effectAllowed = 'copyMove';
     }
@@ -52,14 +46,25 @@ export class FileTreeComponent implements OnInit {
   }
 
   onDrop(event: DragEvent, targetItem: FileNode) {
-    if (this.movedItem !== null && targetItem.isFolder) {
+    event.preventDefault();
+    if (this.movedItem !== null && targetItem.isFolder && this.movedItem?.id !== targetItem.id) {
       const isCopy = event.shiftKey;
       const id = this.movedItem?.id!;
       this.fileSystemService.moveOrCopyItem(id, targetItem.id, isCopy);
       this.fileSystem = this.fileSystemService.getFileSystem();
     }
     this.movedItem = null;
-    event.preventDefault();
+    this.isDragging = false;
+  }
+
+  createItems(isFolder: boolean, count?: number) {
+    count = count ? count : Number(prompt('Number of elements', String(50)));
+    const parentId = this.selectedItem && this.selectedItem.isFolder ? this.selectedItem.id : 'root';
+    this.fileSystemService.createItems(count, isFolder, parentId);
+    this.fileSystem = this.fileSystemService.getFileSystem();
+    if (this.selectedItem && !this.selectedItem.expanded) {
+      this.toggleFolder(this.selectedItem);
+    }
   }
 
   toggleFolder(item: FileNode) {
